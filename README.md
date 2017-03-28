@@ -19,9 +19,9 @@ The commands below will be useful for those using Anaconda/Miniconda and pip to
 manage Python packages.  If you use another method you will have to adapt the
 steps.
 ```
-conda create -n autopilottf1 python=2.7
+conda create -n autopilot python=3.5
 source activate autopilot
-export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py2-none-any.whl
+export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl
 pip install --ignore-installed --upgrade $TF_BINARY_URL
 pip install pillow==4.0.0
 conda install -c menpo opencv3=3.1.0
