@@ -2,10 +2,18 @@
 
 ## Overview
 
-A modified implementation of the
-[End to End Learning for Self-Driving Cars](https://arxiv.org/abs/1604.07316)
-paper by NVIDIA using TensorFlow. A convolutional neural network (CNN) is
-trained to map raw pixels from a camera to steering commands.
+In this project we have a modified implementation of the
+[NVIDIA End-to-End Deep Learning for Self-Driving Cars](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/)
+self-driving car model and [this paper](https://arxiv.org/abs/1604.07316). Our
+implementation is based on the python TensorFlow implementation by [Sully Chen](https://github.com/SullyChen/Autopilot-TensorFlow).
+
+The project consists of a python-based training script and an inference
+implementation.  A convolutional neural network (CNN) is trained to map raw
+pixels to steering commands.  The image frames were captured by a dash-mounted
+video camera.  At the end of the training, the model is saved. This saved model
+is then loaded by the inference implementation to evaluate what the model
+predicts for the steering commands.
+
 
 ## Dependencies
 
@@ -43,6 +51,14 @@ into the repository folder.
 
 ## Usage
 
+#### Train the Model Using the Prerecorded Training Dataset
+The model needs to be trained with the prerecorded driving data.  Training the
+model should create a `save` folder that will contain the saved model and
+checkpoint files.  We will use the saved model for inference.
+* `python train.py` to train the model
+* To visualize the training performance using Tensorboard use `tensorboard
+--logdir=./logs`, then open http://0.0.0.0:6006/ in your web browser.
+
 #### Evaluate the Model Using the Prerecorded Training Dataset
 The `save` directory contains a model that was already trained using the
 JPEG and steering wheel readings dataset that you downloaded earlier.  When run
@@ -53,13 +69,14 @@ drive and the steering wheel angle predicted by the pre-trained model.
 #### Evaluate the Model Using a Live Webcam Feed
 If you have a dash-mounted video camera that is connected to your computer you
 can use `run.py` to evaluate the trained model using the captured frames to see
-what steering wheel positions it predicts.
+what steering wheel positions it predicts.  I have not tested this code that
+was forked from Sully Chen's repository, so you may need to make some
+modifications.
 * `python run.py` to run the model on a live webcam feed
 
-#### Retrain the Model Using the Prerecorded Training Dataset
-* `python train.py` to re-train the model
-* To visualize training using Tensorboard use `tensorboard --logdir=./logs`, then open http://0.0.0.0:6006/ in your web browser.
-
 ## Credits
-This repository was forked from [SullyChen/Autopilot-TensorFlow](https://github.com/SullyChen/Autopilot-TensorFlow), modified to support TensorFlow 1.0, and expanded with additional
-documentation.  Full credit for the original code goes to [Sully Chen](https://github.com/SullyChen).
+This repository was forked from [SullyChen/Autopilot-TensorFlow](https://github.com/SullyChen/Autopilot-TensorFlow),
+modified to support TensorFlow 1.0, and expanded with additional documentation.
+Full credit for the original code goes to [Sully Chen](https://github.com/SullyChen).
+Additional code and comments from [Tomi Maila](https://github.com/tmaila/autopilot)'s
+repository.

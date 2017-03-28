@@ -1,26 +1,34 @@
+"""Loader for training and validation samples
+
+This file provides functions to load training and validation data from disk.
+"""
 import scipy.misc
 import random
 
+# Directory and File locations
+DATASETDIR = "driving_dataset/"
+
+# Initialize dataset lists
 xs = []
 ys = []
 
-#points to the end of the last batch
+# Points to the end of the last batch
 train_batch_pointer = 0
 val_batch_pointer = 0
 
-#read data.txt
-with open("driving_dataset/data.txt") as f:
+# Read data.txt
+with open(DATASETDIR + "data.txt") as f:
     for line in f:
-        xs.append("driving_dataset/" + line.split()[0])
+        xs.append(DATASETDIR + line.split()[0])
         #the paper by Nvidia uses the inverse of the turning radius,
         #but steering wheel angle is proportional to the inverse of turning radius
         #so the steering wheel angle in radians is used as the output
         ys.append(float(line.split()[1]) * scipy.pi / 180)
 
-#get number of images
+# Get number of images
 num_images = len(xs)
 
-#shuffle list of images
+# Shuffle list of images
 c = list(zip(xs, ys))
 random.shuffle(c)
 xs, ys = zip(*c)
