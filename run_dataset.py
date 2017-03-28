@@ -14,10 +14,13 @@ saver.restore(sess, "save/model.ckpt")
 img = cv2.imread("steering_wheel_image.jpg",0)
 rows,cols = img.shape
 
+# Count the number of JPEG video frames in the dataset directory
 frame_count = len(glob1(DATASET_DIRECTORY,"*.jpg"))
-smoothed_angle = 0
 
+# Initialize variables
+smoothed_angle = 0.0
 i = 0
+
 while(cv2.waitKey(10) != ord('q') and i < frame_count):
     full_image = scipy.misc.imread(DATASET_DIRECTORY + str(i) + ".jpg", mode="RGB")
     image = scipy.misc.imresize(full_image[-150:], [66, 200]) / 255.0
