@@ -29,14 +29,14 @@ sess = tf.InteractiveSession()
 #
 
 # Mean square error loss
-mse = tf.reduce_mean(tf.square(tf.subtract(model.y_, model.y)))
+mse_loss = tf.reduce_mean(tf.square(tf.subtract(model.y_, model.y)))
 
 # L2 regularization loss
 train_vars = tf.trainable_variables()
 l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in train_vars]) * L2NormConst
 
 # Total training loss
-loss =  mse + l2_loss
+loss =  mse_loss + l2_loss
 
 #
 # Prepare training
@@ -51,8 +51,10 @@ train_step = optimizer.minimize(loss)
 # Initialize parameters
 sess.run(tf.global_variables_initializer())
 
-# Create a summary to monitor cost tensor
-tf.summary.scalar("loss", loss)
+# Create summaries to monitor the loss
+tf.summary.scalar("total loss", loss)
+tf.summary.scalar("L2 loss", l2_loss)
+tf.summary.scalar("MSE loss", mse_loss)
 
 # Merge all summaries into a single op
 merged_summary_op = tf.summary.merge_all()
@@ -66,6 +68,12 @@ summary_writer = tf.summary.FileWriter(LOGDIR, graph=tf.get_default_graph())
 #
 # Training
 #
+
+# Display instructions for TensorBoard
+print("\nTraining...\n")
+print("To track the training run the command:\n\n" \
+        "tensorboard --logdir " + LOGDIR + "\n\n" \
+        "Then open http://0.0.0.0:6006/ in your web browser\n")
 
 # Train over the dataset
 for epoch in range(epochs):
@@ -96,6 +104,7 @@ for epoch in range(epochs):
   print("Model saved in file: %s" % filename)
 
 # Display instructions for TensorBoard
-print("Run the command line:\n" \
-          "--> tensorboard --logdir=" + LOGDIR + \
-          "\nThen open http://0.0.0.0:6006/ into your web browser")
+print("\nTraining completed.\n\n")
+print("To view the training performance run the command:\n\n" \
+        "tensorboard --logdir " + LOGDIR + "\n\n" \
+        "Then open http://0.0.0.0:6006/ in your web browser\n")
