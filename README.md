@@ -31,6 +31,7 @@ conda install -c anaconda scipy=0.19.0
 _Note: Only tested with macOS 10.12.3 and Ubuntu 16.04.2 LTS._
 
 **Dataset**
+
 The driving_dataset.zip file contains 45,568 JPEG images of video frames that
 are used to train the model and the observed steering wheel angle readings.  It
 is 2.2 GB compressed, so you'll want to be on fairly fast Internet connection
