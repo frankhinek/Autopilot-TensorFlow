@@ -21,8 +21,8 @@ saver = tf.train.Saver()
 saver.restore(sess, config.MODELFILE)
 
 # Read in steering wheel image
-img = cv2.imread(STEERING_WHEEL_IMAGE, 0)
-rows,cols = img.shape
+img = cv2.imread(STEERING_WHEEL_IMAGE, 1)
+rows,cols = img.shape[:2]
 
 # Count the number of JPEG video frames in the dataset directory
 frame_count = len(glob1(config.DATASETDIR,"*.jpg"))
