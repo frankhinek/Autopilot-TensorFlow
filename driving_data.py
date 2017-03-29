@@ -4,9 +4,8 @@ This file provides functions to load training and validation data from disk.
 """
 import scipy.misc
 import random
+import config
 
-# Directory and File locations
-DATASETDIR = "driving_dataset/"
 
 # Initialize dataset lists
 xs = []
@@ -17,9 +16,9 @@ train_batch_pointer = 0
 val_batch_pointer = 0
 
 # Read data.txt
-with open(DATASETDIR + "data.txt") as f:
+with open(config.DATASETDIR + "data.txt") as f:
     for line in f:
-        xs.append(DATASETDIR + line.split()[0])
+        xs.append(config.DATASETDIR + line.split()[0])
         #the paper by Nvidia uses the inverse of the turning radius,
         #but steering wheel angle is proportional to the inverse of turning radius
         #so the steering wheel angle in radians is used as the output

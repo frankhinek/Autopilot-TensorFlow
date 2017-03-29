@@ -2,14 +2,11 @@ import os
 import tensorflow as tf
 import driving_data
 import model
+import config
 
 #
 # Initialize parameters
 #
-
-# Directory and File locations
-MODELDIR = './save'
-LOGDIR = './logs'
 
 # Learning parameters
 L2NormConst = 0.001
@@ -63,7 +60,7 @@ merged_summary_op = tf.summary.merge_all()
 saver = tf.train.Saver()
 
 # Op to write logs to Tensorboard
-summary_writer = tf.summary.FileWriter(LOGDIR, graph=tf.get_default_graph())
+summary_writer = tf.summary.FileWriter("./" + config.LOGDIR, graph=tf.get_default_graph())
 
 #
 # Training
@@ -72,8 +69,10 @@ summary_writer = tf.summary.FileWriter(LOGDIR, graph=tf.get_default_graph())
 # Display instructions for TensorBoard
 print("\nTraining...\n")
 print("To track the training run the command:\n\n" \
-        "tensorboard --logdir " + LOGDIR + "\n\n" \
+        "tensorboard --logdir " + config.LOGDIR + "\n\n" \
         "Then open http://0.0.0.0:6006/ in your web browser\n")
+
+step = 0
 
 # Train over the dataset
 for epoch in range(epochs):
@@ -89,22 +88,25 @@ for epoch in range(epochs):
     if i % 10 == 0:
       xs, ys = driving_data.LoadValBatch(batch_size)
       loss_value = loss.eval(feed_dict={model.x:xs, model.y_: ys, model.keep_prob: 1.0})
-      print("Epoch: %d, Step: %d, Loss: %g" % (epoch, epoch * batch_size + i, loss_value))
+      print("Epoch: %d, Step: %d, Loss: %g" % (epoch, step, loss_value))
 
     # Write logs at every iteration
     summary = merged_summary_op.eval(feed_dict={model.x:xs, model.y_: ys, model.keep_prob: 1.0})
-    summary_writer.add_summary(summary, epoch * batch_size + i)
+    summary_writer.add_summary(summary, global_step=step)
 
     # Save checkpoint
     if i % batch_size == 0:
-      if not os.path.exists(MODELDIR):
-        os.makedirs(MODELDIR)
-      checkpoint_path = os.path.join(MODELDIR, "model.ckpt")
+      if not os.path.exists(config.MODELDIR):
+        os.makedirs(config.MODELDIR)
+      checkpoint_path = os.path.join("./", config.MODELFILE)
       filename = saver.save(sess, checkpoint_path)
+
+    step += 1
+
   print("Model saved in file: %s" % filename)
 
 # Display instructions for TensorBoard
 print("\nTraining completed.\n\n")
 print("To view the training performance run the command:\n\n" \
-        "tensorboard --logdir " + LOGDIR + "\n\n" \
+        "tensorboard --logdir " + config.LOGDIR + "\n\n" \
         "Then open http://0.0.0.0:6006/ in your web browser\n")
