@@ -57,7 +57,7 @@ model should create a `save` folder that will contain the saved model and
 checkpoint files.  We will use the saved model for inference.
 * `python train.py` to train the model
 * To visualize the training performance using Tensorboard use `tensorboard
---logdir=./logs`, then open http://0.0.0.0:6006/ in your web browser.
+--logdir logs`, then open http://0.0.0.0:6006/ in your web browser.
 
 #### Evaluate the Model Using the Prerecorded Training Dataset
 The `save` directory contains a model that was already trained using the
